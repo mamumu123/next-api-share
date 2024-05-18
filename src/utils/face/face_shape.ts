@@ -3,7 +3,7 @@
 import { randomFromInterval } from "./utils";
 
 // 椭圆的方程是x^2/a^2 * (1 + ky) + y^2/b^2 = 1，其中a和b是椭圆的半长轴和半短轴，k是椭圆的旋转角度。
-export function getEggShapePoints(a: number, b: number, k: number, segment_points: number) {
+export function getEggShapePoints(a: number, b: number, k: number, segment_points: number, rng: () => number) {
   // the function is x^2/a^2 * (1 + ky) + y^2/b^2 = 1
   var result = [];
   //   var pointString = "";
@@ -14,12 +14,13 @@ export function getEggShapePoints(a: number, b: number, k: number, segment_point
       (Math.PI / 2 / segment_points) * i +
       randomFromInterval(
         -Math.PI / 1.1 / segment_points,
-        Math.PI / 1.1 / segment_points
+        Math.PI / 1.1 / segment_points,
+        rng,
       );
     var y = Math.sin(degree) * b;
     var x =
       Math.sqrt(((1 - (y * y) / (b * b)) / (1 + k * y)) * a * a) +
-      randomFromInterval(-a / 200.0, a / 200.0);
+      randomFromInterval(-a / 200.0, a / 200.0, rng);
     // pointString += x + "," + y + " ";
     result.push([x, y]);
   }
@@ -29,12 +30,13 @@ export function getEggShapePoints(a: number, b: number, k: number, segment_point
       (Math.PI / 2 / segment_points) * i +
       randomFromInterval(
         -Math.PI / 1.1 / segment_points,
-        Math.PI / 1.1 / segment_points
+        Math.PI / 1.1 / segment_points,
+        rng,
       );
     var y = Math.sin(degree) * b;
     var x =
       -Math.sqrt(((1 - (y * y) / (b * b)) / (1 + k * y)) * a * a) +
-      randomFromInterval(-a / 200.0, a / 200.0);
+      randomFromInterval(-a / 200.0, a / 200.0, rng);
     // pointString += x + "," + y + " ";
     result.push([x, y]);
   }
@@ -44,12 +46,13 @@ export function getEggShapePoints(a: number, b: number, k: number, segment_point
       (Math.PI / 2 / segment_points) * i +
       randomFromInterval(
         -Math.PI / 1.1 / segment_points,
-        Math.PI / 1.1 / segment_points
+        Math.PI / 1.1 / segment_points,
+        rng,
       );
     var y = -Math.sin(degree) * b;
     var x =
       -Math.sqrt(((1 - (y * y) / (b * b)) / (1 + k * y)) * a * a) +
-      randomFromInterval(-a / 200.0, a / 200.0);
+      randomFromInterval(-a / 200.0, a / 200.0, rng);
     // pointString += x + "," + y + " ";
     result.push([x, y]);
   }
@@ -59,34 +62,35 @@ export function getEggShapePoints(a: number, b: number, k: number, segment_point
       (Math.PI / 2 / segment_points) * i +
       randomFromInterval(
         -Math.PI / 1.1 / segment_points,
-        Math.PI / 1.1 / segment_points
+        Math.PI / 1.1 / segment_points,
+        rng,
       );
     var y = -Math.sin(degree) * b;
     var x =
       Math.sqrt(((1 - (y * y) / (b * b)) / (1 + k * y)) * a * a) +
-      randomFromInterval(-a / 200.0, a / 200.0);
+      randomFromInterval(-a / 200.0, a / 200.0, rng);
     // pointString += x + "," + y + " ";
     result.push([x, y]);
   }
   return result;
 }
 
-export function generateFaceCountourPoints(numPoints = 100) {
-  var faceSizeX0 = randomFromInterval(50, 100);
-  var faceSizeY0 = randomFromInterval(70, 100);
+export function generateFaceCountourPoints(numPoints = 100, rng: () => number) {
+  var faceSizeX0 = randomFromInterval(50, 100, rng);
+  var faceSizeY0 = randomFromInterval(70, 100, rng);
 
 
-  var faceSizeY1 = randomFromInterval(50, 80);
-  var faceSizeX1 = randomFromInterval(70, 100);
-  var faceK0 = randomFromInterval(0.001, 0.005) * (Math.random() > 0.5 ? 1 : -1);
-  var faceK1 = randomFromInterval(0.001, 0.005) * (Math.random() > 0.5 ? 1 : -1);
-  var face0TranslateX = randomFromInterval(-5, 5);
-  var face0TranslateY = randomFromInterval(-15, 15);
+  var faceSizeY1 = randomFromInterval(50, 80, rng);
+  var faceSizeX1 = randomFromInterval(70, 100, rng);
+  var faceK0 = randomFromInterval(0.001, 0.005, rng) * (rng() > 0.5 ? 1 : -1);
+  var faceK1 = randomFromInterval(0.001, 0.005, rng) * (rng() > 0.5 ? 1 : -1);
+  var face0TranslateX = randomFromInterval(-5, 5, rng);
+  var face0TranslateY = randomFromInterval(-15, 15, rng);
 
-  var face1TranslateY = randomFromInterval(-5, 5);
-  var face1TranslateX = randomFromInterval(-5, 25);
-  var results0 = getEggShapePoints(faceSizeX0, faceSizeY0, faceK0, numPoints);
-  var results1 = getEggShapePoints(faceSizeX1, faceSizeY1, faceK1, numPoints);
+  var face1TranslateY = randomFromInterval(-5, 5, rng);
+  var face1TranslateX = randomFromInterval(-5, 25, rng);
+  var results0 = getEggShapePoints(faceSizeX0, faceSizeY0, faceK0, numPoints, rng);
+  var results1 = getEggShapePoints(faceSizeX1, faceSizeY1, faceK1, numPoints, rng);
   for (var i = 0; i < results0.length; i++) {
     results0[i][0] += face0TranslateX;
     results0[i][1] += face0TranslateY;

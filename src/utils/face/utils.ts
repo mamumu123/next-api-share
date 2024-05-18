@@ -1,6 +1,6 @@
-export function randomFromInterval(min: number, max: number) {
+export function randomFromInterval(min: number, max: number, rng: () => number) {
   // min and max included
-  return Math.random() * (max - min) + min;
+  return rng() * (max - min) + min;
 }
 
 export function cubicBezier(P0: number[], P1: number[], P2: number[], P3: number[], t: number) {

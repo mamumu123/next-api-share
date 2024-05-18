@@ -1,33 +1,33 @@
 import { cubicBezier, randomFromInterval } from "./utils";
-function generateEyeParameters(width: number) {
-    let height_upper = Math.random() * width / 1.2;// Less height for the upper eyelid to make it sharper
-    let height_lower = Math.random() * width / 1.2;// More height for the lower eyelid to make it rounder and droopier
-    let P0_upper_randX = Math.random() * 0.4 - 0.2;
-    let P3_upper_randX = Math.random() * 0.4 - 0.2;
-    let P0_upper_randY = Math.random() * 0.4 - 0.2;
-    let P3_upper_randY = Math.random() * 0.4 - 0.2;
-    let offset_upper_left_randY = Math.random();
-    let offset_upper_right_randY = Math.random();
+function generateEyeParameters(width: number, rng: () => number) {
+    let height_upper = rng() * width / 1.2;// Less height for the upper eyelid to make it sharper
+    let height_lower = rng() * width / 1.2;// More height for the lower eyelid to make it rounder and droopier
+    let P0_upper_randX = rng() * 0.4 - 0.2;
+    let P3_upper_randX = rng() * 0.4 - 0.2;
+    let P0_upper_randY = rng() * 0.4 - 0.2;
+    let P3_upper_randY = rng() * 0.4 - 0.2;
+    let offset_upper_left_randY = rng();
+    let offset_upper_right_randY = rng();
     let P0_upper = [-width / 2 + P0_upper_randX * width / 16, P0_upper_randY * height_upper / 16];
     let P3_upper = [width / 2 + P3_upper_randX * width / 16, P3_upper_randY * height_upper / 16];
-    let P0_lower = P0_upper;// Starting at the same point as the upper eyelid
-    let P3_lower = P3_upper;// Ending at the same point as the upper eyelid
+    // let P0_lower = P0_upper;// Starting at the same point as the upper eyelid
+    // let P3_lower = P3_upper;// Ending at the same point as the upper eyelid
     let eye_true_width = P3_upper[0] - P0_upper[0];
 
-    let offset_upper_left_x = randomFromInterval(-eye_true_width / 10.0, eye_true_width / 2.3);// Upper eyelid control point offset to create asymmetry
-    let offset_upper_right_x = randomFromInterval(-eye_true_width / 10.0, eye_true_width / 2.3);// Upper eyelid control point offset to create asymmetry
+    let offset_upper_left_x = randomFromInterval(-eye_true_width / 10.0, eye_true_width / 2.3, rng);// Upper eyelid control point offset to create asymmetry
+    let offset_upper_right_x = randomFromInterval(-eye_true_width / 10.0, eye_true_width / 2.3, rng);// Upper eyelid control point offset to create asymmetry
     let offset_upper_left_y = offset_upper_left_randY * height_upper;// Upper eyelid control point offset to create asymmetry
     let offset_upper_right_y = offset_upper_right_randY * height_upper;// Upper eyelid control point offset to create asymmetry
-    let offset_lower_left_x = randomFromInterval(offset_upper_left_x, eye_true_width / 2.1);// Lower eyelid control point offset
-    let offset_lower_right_x = randomFromInterval(offset_upper_right_x, eye_true_width / 2.1);// Upper eyelid control point offset to create asymmetry
-    let offset_lower_left_y = randomFromInterval(-offset_upper_left_y + 5, height_lower);// Upper eyelid control point offset to create asymmetry
-    let offset_lower_right_y = randomFromInterval(-offset_upper_right_y + 5, height_lower);// Upper eyelid control point offset to create asymmetry
+    let offset_lower_left_x = randomFromInterval(offset_upper_left_x, eye_true_width / 2.1, rng);// Lower eyelid control point offset
+    let offset_lower_right_x = randomFromInterval(offset_upper_right_x, eye_true_width / 2.1, rng);// Upper eyelid control point offset to create asymmetry
+    let offset_lower_left_y = randomFromInterval(-offset_upper_left_y + 5, height_lower, rng);// Upper eyelid control point offset to create asymmetry
+    let offset_lower_right_y = randomFromInterval(-offset_upper_right_y + 5, height_lower, rng);// Upper eyelid control point offset to create asymmetry
     // Generate points for the Bezier curves
-    let left_converge0 = Math.random();
-    let right_converge0 = Math.random();
+    let left_converge0 = rng();
+    let right_converge0 = rng();
     // Generate points for the Bezier curves
-    let left_converge1 = Math.random();
-    let right_converge1 = Math.random();
+    let left_converge1 = rng();
+    let right_converge1 = rng();
     return {
         height_upper: height_upper,
         height_lower: height_lower,
@@ -79,7 +79,7 @@ export function generateEyePoints(rands: Rands, width = 50) {
     let P3_upper = [width / 2 + rands.P3_upper_randX * width / 16, rands.P3_upper_randY * rands.height_upper / 16];
     let P0_lower = P0_upper;// Starting at the same point as the upper eyelid
     let P3_lower = P3_upper;// Ending at the same point as the upper eyelid
-    let eye_true_width = P3_upper[0] - P0_upper[0];
+    // let eye_true_width = P3_upper[0] - P0_upper[0];
 
     // Upper eyelid control points
     let P1_upper = [P0_upper[0] + rands.offset_upper_left_x, P0_upper[1] + rands.offset_upper_left_y];  // First control point
@@ -146,8 +146,8 @@ export function generateEyePoints(rands: Rands, width = 50) {
     return { upper: upper_eyelid_points, lower: lower_eyelid_points, center: [eyeCenter] }
 }
 
-export function generateBothEyes(width = 50) {
-    let rands_left = generateEyeParameters(width)
+export function generateBothEyes(width = 50, rng: () => number) {
+    let rands_left = generateEyeParameters(width, rng)
     // Create a shallow copy of the object
     let rands_right = { ...rands_left } as any;
 
@@ -156,7 +156,7 @@ export function generateBothEyes(width = 50) {
         // Check if the property value is a number
         if (typeof rands_right[key] === 'number') {
             // Add a random value to the number, for example, between -5 and 5
-            rands_right[key] += randomFromInterval(-rands_right[key] / 2.0, rands_right[key] / 2.0);
+            rands_right[key] += randomFromInterval(-rands_right[key] / 2.0, rands_right[key] / 2.0, rng);
         }
     }
     let left_eye = generateEyePoints(rands_left, width) as any

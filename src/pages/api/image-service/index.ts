@@ -8,8 +8,8 @@ import { renderToString } from '@vue/server-renderer'
 // console.log('appPath', appPath);
 // const appCode = fs.readFileSync(appPath, 'utf-8')
 
-export const getSvg = async () => {
-  const data = getImageData();
+export const getSvg = async (rng: () => number) => {
+  const data = getImageData(rng);
   const app = createSSRApp({
     template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="500" height="500" id="face-svg">
   <defs>
@@ -26,22 +26,22 @@ export const getSvg = async () => {
     </filter>
     <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" :style="'stop-color: ' +
-        hairColors[Math.floor(Math.random() * 10)] +
+        hairColors[Math.floor(rng() * 10)] +
         ';  stop-opacity: 1'
         " />
       <stop :offset="dyeColorOffset" :style="'stop-color: ' +
-        hairColors[Math.floor(Math.random() * hairColors.length)] +
+        hairColors[Math.floor(rng() * hairColors.length)] +
         ';  stop-opacity: 1'
         " />
       <stop offset="100%" :style="'stop-color: ' +
-        hairColors[Math.floor(Math.random() * hairColors.length)] +
+        hairColors[Math.floor(rng() * hairColors.length)] +
         ';  stop-opacity: 1'
         " />
     </linearGradient>
   </defs>
   <title>That's an ugly face</title>
   <desc>CREATED BY XUAN TANG, MORE INFO AT TXSTC55.GITHUB.IO</desc>
-  <rect x="-100" y="-100" width="100%" height="100%" :fill="backgroundColors[Math.floor(Math.random() * backgroundColors.length)]
+  <rect x="-100" y="-100" width="100%" height="100%" :fill="backgroundColors[Math.floor(rng() * backgroundColors.length)]
     " />
   <polyline id="faceContour" :points="computedFacePoints.toString()" fill="#ffc9a9" stroke="black"
     :stroke-width="3.0 / faceScale" stroke-linejoin="round" filter="url(#fuzzy)" />
@@ -74,8 +74,8 @@ export const getSvg = async () => {
       stroke-linejoin="round" filter="url(#fuzzy)" />
     <polyline id="rightLower" :points="eyeRightLower.toString()" fill="none" stroke="black" :stroke-width="4.0 / faceScale"
       stroke-linejoin="round" filter="url(#fuzzy)" />
-    <circle v-for="i in 10" :key="i" :r="Math.random() * 2 + 3.0" :cx="rightPupilShiftX + Math.random() * 5 - 2.5"
-      :cy="rightPupilShiftY + Math.random() * 5 - 2.5" stroke="black" fill="none" :stroke-width="1.0"
+    <circle v-for="i in 10" :key="i" :r="rng() * 2 + 3.0" :cx="rightPupilShiftX + rng() * 5 - 2.5"
+      :cy="rightPupilShiftY + rng() * 5 - 2.5" stroke="black" fill="none" :stroke-width="1.0"
       filter="url(#fuzzy)" clip-path="url(#rightEyeClipPath)" />
   </g>
   <g :transform="'translate(' +
@@ -88,23 +88,23 @@ export const getSvg = async () => {
       stroke-linejoin="round" filter="url(#fuzzy)" />
     <polyline id="leftLower" :points="eyeLeftLower.toString()" fill="none" stroke="black" :stroke-width="4.0 / faceScale"
       stroke-linejoin="round" filter="url(#fuzzy)" />
-    <circle v-for="i in 10" :key="i" :r="Math.random() * 2 + 3.0" :cx="leftPupilShiftX + Math.random() * 5 - 2.5"
-      :cy="leftPupilShiftY + Math.random() * 5 - 2.5" stroke="black" fill="none" :stroke-width="1.0"
+    <circle v-for="i in 10" :key="i" :r="rng() * 2 + 3.0" :cx="leftPupilShiftX + rng() * 5 - 2.5"
+      :cy="leftPupilShiftY + rng() * 5 - 2.5" stroke="black" fill="none" :stroke-width="1.0"
       filter="url(#fuzzy)" clip-path="url(#leftEyeClipPath)" />
   </g>
   <g id="hairs">
     <polyline v-for="(hair, index) in hairs" :key="index" :points="hair.toString()" fill="none" :stroke="hairColor"
       :stroke-width="2" stroke-linejoin="round" filter="url(#fuzzy)" />
   </g>
-  <g id="pointNose" v-if="Math.random() > 0.5">
+  <g id="pointNose" v-if="rng() > 0.5">
     <g id="rightNose">
-      <circle v-for="i in 10" :key="i" :r="Math.random() * 2 + 1.0" :cx="rightNoseCenterX + Math.random() * 4 - 2"
-        :cy="rightNoseCenterY + Math.random() * 4 - 2" stroke="black" fill="none" :stroke-width="1.0"
+      <circle v-for="i in 10" :key="i" :r="rng() * 2 + 1.0" :cx="rightNoseCenterX + rng() * 4 - 2"
+        :cy="rightNoseCenterY + rng() * 4 - 2" stroke="black" fill="none" :stroke-width="1.0"
         filter="url(#fuzzy)" />
     </g>
     <g id="leftNose">
-      <circle v-for="i in 10" :key="i" :r="Math.random() * 2 + 1.0" :cx="leftNoseCenterX + Math.random() * 4 - 2"
-        :cy="leftNoseCenterY + Math.random() * 4 - 2" stroke="black" fill="none" :stroke-width="1.0"
+      <circle v-for="i in 10" :key="i" :r="rng() * 2 + 1.0" :cx="leftNoseCenterX + rng() * 4 - 2"
+        :cy="leftNoseCenterY + rng() * 4 - 2" stroke="black" fill="none" :stroke-width="1.0"
         filter="url(#fuzzy)" />
     </g>
   </g>

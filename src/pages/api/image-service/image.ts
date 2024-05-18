@@ -40,10 +40,12 @@ interface Data {
 
   backgroundColors: string[],
   mouthPoints: number[][],
+  rng: () => number
 }
 
-export const getImageData = () => {
+export const getImageData = (rng: () => number) => {
   const data: Data = {
+    rng,
     faceScale: 1.8, // face scale
     computedFacePoints: [[]], // the polygon points for face countour
 
@@ -127,14 +129,14 @@ export const getImageData = () => {
   }
 
   // faceShape.generateFaceCountourPoints()生成脸部轮廓点
-  let faceResults = generateFaceCountourPoints();
+  let faceResults = generateFaceCountourPoints(100, rng);
   data.computedFacePoints = faceResults.face;
   // console.log('faceResults.face', faceResults.face);
   data.faceHeight = faceResults.height;
   data.faceWidth = faceResults.width;
   data.center = faceResults.center;
 
-  let eyes = generateBothEyes(data.faceWidth / 2);
+  let eyes = generateBothEyes(data.faceWidth / 2, rng);
   let left = eyes.left;
   let right = eyes.right;
   data.eyeRightUpper = right.upper;
@@ -153,33 +155,40 @@ export const getImageData = () => {
   // 计算眼睛间距和瞳孔偏移：确定两只眼睛之间的距离，以及左右瞳孔在垂直方向上的偏移。
   data.distanceBetweenEyes = randomFromInterval(
     data.faceWidth / 4.5,
-    data.faceWidth / 4
+    data.faceWidth / 4,
+    rng,
   );
   data.eyeHeightOffset = randomFromInterval(
     data.faceHeight / 8,
-    data.faceHeight / 6
+    data.faceHeight / 6,
+    rng,
   );
   data.leftEyeOffsetX = randomFromInterval(
     -data.faceWidth / 20,
-    data.faceWidth / 10
+    data.faceWidth / 10,
+    rng,
   );
   data.leftEyeOffsetY = randomFromInterval(
     -data.faceHeight / 50,
-    data.faceHeight / 50
+    data.faceHeight / 50,
+    rng,
   );
   data.rightEyeOffsetX = randomFromInterval(
     -data.faceWidth / 20,
-    data.faceWidth / 10
+    data.faceWidth / 10,
+    rng,
   );
   data.rightEyeOffsetY = randomFromInterval(
     -data.faceHeight / 50,
-    data.faceHeight / 50
+    data.faceHeight / 50,
+    rng,
   );
   data.leftEyeCenter = left.center[0];
   data.rightEyeCenter = right.center[0];
   data.leftPupilShiftX = randomFromInterval(
     -data.faceWidth / 20,
-    data.faceWidth / 20
+    data.faceWidth / 20,
+    rng,
   );
 
   // 头发：生成头发线条。通过随机选择不同的生成方法（generateHairLines0 到 generateHairLines3）
@@ -187,17 +196,17 @@ export const getImageData = () => {
   // now we generate the pupil shifts
   // we first pick a point from the upper eye lid
   // 
-  let leftInd0 = Math.floor(randomFromInterval(10, left.upper.length - 10));
+  let leftInd0 = Math.floor(randomFromInterval(10, left.upper.length - 10, rng));
   let rightInd0 = Math.floor(
-    randomFromInterval(10, right.upper.length - 10)
+    randomFromInterval(10, right.upper.length - 10, rng)
   );
-  let leftInd1 = Math.floor(randomFromInterval(10, left.upper.length - 10));
+  let leftInd1 = Math.floor(randomFromInterval(10, left.upper.length - 10, rng));
   let rightInd1 = Math.floor(
-    randomFromInterval(10, right.upper.length - 10)
+    randomFromInterval(10, right.upper.length - 10, rng)
   );
 
-  let leftLerp = randomFromInterval(0.2, 0.8);
-  let rightLerp = randomFromInterval(0.2, 0.8);
+  let leftLerp = randomFromInterval(0.2, 0.8, rng);
+  let rightLerp = randomFromInterval(0.2, 0.8, rng);
 
   data.leftPupilShiftY =
     left.upper[leftInd0][1] * leftLerp +
@@ -215,80 +224,84 @@ export const getImageData = () => {
   var numHairLines = [];
   var numHairMethods = 4;
   for (var i = 0; i < numHairMethods; i++) {
-    numHairLines.push(Math.floor(randomFromInterval(0, 50)));
+    numHairLines.push(Math.floor(randomFromInterval(0, 50, rng)));
   }
   data.hairs = [];
-  if (Math.random() > 0.3) {
+  if (rng() > 0.3) {
     data.hairs = generateHairLines0(
       data.computedFacePoints,
-      numHairLines[0] * 1 + 10
+      numHairLines[0] * 1 + 10, rng
+
     );
   }
-  if (Math.random() > 0.3) {
+  if (rng() > 0.3) {
     data.hairs = data.hairs.concat(
       generateHairLines1(
         data.computedFacePoints,
-        numHairLines[1] / 1.5 + 10
+        numHairLines[1] / 1.5 + 10, rng
       )
     );
   }
-  if (Math.random() > 0.5) {
+  if (rng() > 0.5) {
     data.hairs = data.hairs.concat(
       generateHairLines2(
         data.computedFacePoints,
-        numHairLines[2] * 3 + 10
+        numHairLines[2] * 3 + 10, rng
       )
     );
   }
   // 头发颜色：随机决定头发颜色，可能是自然色或彩虹渐变色，并设置染色的偏移量。
-  if (Math.random() > 0.5) {
+  if (rng() > 0.5) {
     data.hairs = data.hairs.concat(
       generateHairLines3(
         data.computedFacePoints,
-        numHairLines[3] * 3 + 10
+        numHairLines[3] * 3 + 10, rng
       )
     );
   }
   // 鼻子：随机生成左右鼻孔的中心点坐标。
   data.rightNoseCenterX = randomFromInterval(
     data.faceWidth / 18,
-    data.faceWidth / 12
+    data.faceWidth / 12, rng
   );
-  data.rightNoseCenterY = randomFromInterval(0, data.faceHeight / 5);
+  data.rightNoseCenterY = randomFromInterval(0, data.faceHeight / 5, rng);
   data.leftNoseCenterX = randomFromInterval(
     -data.faceWidth / 18,
-    -data.faceWidth / 12
+    -data.faceWidth / 12, rng
   );
   data.leftNoseCenterY =
     data.rightNoseCenterY +
-    randomFromInterval(-data.faceHeight / 30, data.faceHeight / 20);
-  if (Math.random() > 0.1) {
+    randomFromInterval(-data.faceHeight / 30, data.faceHeight / 20, rng);
+  if (rng() > 0.1) {
     // use natural hair color
-    data.hairColor = data.hairColors[Math.floor(Math.random() * 10)];
+    data.hairColor = data.hairColors[Math.floor(rng() * 10)];
   } else {
     data.hairColor = "url(#rainbowGradient)";
-    data.dyeColorOffset = randomFromInterval(0, 100) + "%";
+    data.dyeColorOffset = randomFromInterval(0, 100, rng) + "%";
   }
 
   // 嘴巴：根据随机选择的嘴形（从三种形状中选择），调用相应的 mouthShape.generateMouthShape 方法生成嘴巴的形状点。
-  var choice = Math.floor(Math.random() * 3);
+  var choice = Math.floor(rng() * 3);
   if (choice == 0) {
     data.mouthPoints = generateMouthShape0(
       data.computedFacePoints,
       data.faceHeight,
-      data.faceWidth
+      data.faceWidth,
+      rng
     );
   } else if (choice == 1) {
     data.mouthPoints = generateMouthShape1(
       data.computedFacePoints,
       data.faceHeight,
-      data.faceWidth
+      data.faceWidth,
+      rng
     );
   } else {
     data.mouthPoints = generateMouthShape2(
       data.computedFacePoints,
       data.faceHeight,
-      data.faceWidth
+      data.faceWidth,
+      rng,
     );
   }
 
