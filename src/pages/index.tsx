@@ -29,6 +29,9 @@ export default function Home() {
     a.click();
     window.URL.revokeObjectURL(url);
   }
+  const loaderProp = ({ src }: { src: string }) => {
+    return src;
+  }
 
   return (
     <div className={`flex min-h-screen flex-col  p-12`}>
@@ -42,7 +45,7 @@ export default function Home() {
         {demoList.map((item) => (
           <Card className="min-w-[220px]  max-w-[250px] flex-1" key={item}>
             <CardContent className={'p-5'}>
-              <Image src={item} alt={'index'} width={200} height={200} />
+              <Image src={item} alt={'index'} width={200} height={200} loader={loaderProp} />
             </CardContent>
             <CardFooter className={'flex justify-center items-center'}>
               <Button onClick={() => onDownload(item)}> 下载 </Button>
