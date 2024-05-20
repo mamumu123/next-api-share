@@ -1,0 +1,7 @@
+@host=http://localhost:3000
+
+### /hello
+get {{host}}/api/hello
+
+### /face
+get {{host}}/api/face
