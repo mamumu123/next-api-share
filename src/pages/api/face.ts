@@ -11,9 +11,10 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>,
 ) {
-    const { id, username } = req.query;
+    const { id, username, bg_color } = req.query;
+    const bgColor = bg_color as string;
     const seed = (id || username || `${Math.random()}`) as string
     const rng = seedrandom(seed);
-    const result = await getSvg(rng);
+    const result = await getSvg({ rng, bgColor });
     res.status(200).setHeader('Content-Type', 'image/svg+xml').send(result);
 }

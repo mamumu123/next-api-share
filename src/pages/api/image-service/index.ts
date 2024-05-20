@@ -8,8 +8,8 @@ import { renderToString } from '@vue/server-renderer'
 // console.log('appPath', appPath);
 // const appCode = fs.readFileSync(appPath, 'utf-8')
 
-export const getSvg = async (rng: () => number) => {
-  const data = getImageData(rng);
+export const getSvg = async ({ rng, bgColor }: { rng: () => number, bgColor: string }) => {
+  const data = getImageData({ rng, bgColor });
   const app = createSSRApp({
     template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="500" height="500" id="face-svg">
   <defs>
@@ -41,7 +41,7 @@ export const getSvg = async (rng: () => number) => {
   </defs>
   <title>That's an ugly face</title>
   <desc>CREATED BY XUAN TANG, MORE INFO AT TXSTC55.GITHUB.IO</desc>
-  <rect x="-100" y="-100" width="100%" height="100%" :fill="backgroundColors[Math.floor(rng() * backgroundColors.length)]
+  <rect x="-100" y="-100" width="100%" height="100%" :fill="bgColor || backgroundColors[Math.floor(rng() * backgroundColors.length)]
     " />
   <polyline id="faceContour" :points="computedFacePoints.toString()" fill="#ffc9a9" stroke="black"
     :stroke-width="3.0 / faceScale" stroke-linejoin="round" filter="url(#fuzzy)" />
