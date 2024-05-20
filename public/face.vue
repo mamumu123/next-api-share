@@ -1,4 +1,4 @@
-<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="500" height="500" id="face-svg">
+<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200" id="face-svg">
   <defs>
     <clipPath id="leftEyeClipPath">
       <polyline :points="eyeLeftCountour.toString()" />

@@ -11,7 +11,7 @@ import { renderToString } from '@vue/server-renderer'
 export const getSvg = async ({ rng, bgColor }: { rng: () => number, bgColor: string }) => {
   const data = getImageData({ rng, bgColor });
   const app = createSSRApp({
-    template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="500" height="500" id="face-svg">
+    template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200" id="face-svg">
   <defs>
     <clipPath id="leftEyeClipPath">
       <polyline :points="eyeLeftCountour.toString()" />

@@ -41,13 +41,12 @@ interface Data {
   backgroundColors: string[],
   mouthPoints: number[][],
   rng: () => number
-  bgColor: string
 }
 
-export const getImageData = ({ rng, bgColor }: { rng: () => number, bgColor: string }) => {
+export const getImageData = ({ rng, ...rest }: { rng: () => number }) => {
   const data: Data = {
     rng,
-    bgColor,
+    ...rest,
     faceScale: 1.8, // face scale
     computedFacePoints: [[]], // the polygon points for face countour
 
