@@ -8,10 +8,10 @@ import { renderToString } from '@vue/server-renderer'
 // console.log('appPath', appPath);
 // const appCode = fs.readFileSync(appPath, 'utf-8')
 
-export const getSvg = async ({ rng, bgColor }: { rng: () => number, bgColor: string }) => {
-  const data = getImageData({ rng, bgColor });
+export const getSvg = async ({ rng, bgColor, height, width }: { rng: () => number, bgColor: string, height: number, width: number }) => {
+  const data = getImageData({ rng, bgColor, height, width });
   const app = createSSRApp({
-    template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" width="200" height="200" id="face-svg">
+    template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" :width="width||200" :height="height||200" id="face-svg">
   <defs>
     <clipPath id="leftEyeClipPath">
       <polyline :points="eyeLeftCountour.toString()" />

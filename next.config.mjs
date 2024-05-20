@@ -5,6 +5,7 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     domains: [
       "/",
+      "github.githubassets.com",
       "next-api-share.vercel.app",
     ],
   }

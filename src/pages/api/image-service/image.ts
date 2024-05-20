@@ -43,7 +43,7 @@ interface Data {
   rng: () => number
 }
 
-export const getImageData = ({ rng, ...rest }: { rng: () => number }) => {
+export const getImageData = ({ rng, ...rest }: { rng: () => number, [key: string]: any }) => {
   const data: Data = {
     rng,
     ...rest,
