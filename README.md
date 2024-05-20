@@ -33,12 +33,12 @@ https://next-api-share.vercel.app/api/face?bg_color=rgb(245,245,220)
 https://next-api-share.vercel.app/api/face?bg_color=red
 
 
-### 固定返回值
+#### 固定返回值
 https://next-api-share.vercel.app/api/face?id=666
 
 https://next-api-share.vercel.app/api/face?username=john
 
-### 固定宽度或高度
+#### 固定宽度或高度
 https://next-api-share.vercel.app/api/face?w=400&h=400
 
 
