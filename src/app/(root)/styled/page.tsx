@@ -8,6 +8,7 @@
 // import { Button } from "@/components/ui/button";
 // import { useEffect, useState } from "react";
 // import { nanoid } from 'nanoid'
+"use client";
 
 export default function Home() {
 
