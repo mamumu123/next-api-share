@@ -1,20 +1,23 @@
-import type { Metadata } from "next";
-import "@/styles/globals.css";
+// import MobileNav from '@/components/shared/MobileNav'
+import Sidebar from '@/components/shared/Sidebar'
+// import { Toaster } from '@/components/ui/toaster'
 
 
-export const metadata: Metadata = {
-  title: "潦草头像",
-  description: "创建一个潦草头像",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+    <main className="root">
+      <Sidebar />
+      {/* <MobileNav /> */}
+
+      <div className="root-container">
+        <div className="wrapper">
+          {children}
+        </div>
+      </div>
+
+      {/* <Toaster /> */}
+    </main>
+  )
 }
+
+export default Layout;
