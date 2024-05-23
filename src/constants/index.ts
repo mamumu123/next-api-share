@@ -6,7 +6,7 @@ export const navLinks = [
   },
   {
     label: "编辑",
-    route: "/transformations/add/restore",
+    route: "/styled?id=",
     icon: "/assets/icons/image.svg",
   },
   // {
