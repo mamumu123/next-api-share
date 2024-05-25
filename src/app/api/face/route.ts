@@ -12,6 +12,7 @@ type Query = {
     bg_color: string
     w: string
     h: string
+    o: string // opacity
 }
 export async function GET(
     request: NextRequest
@@ -23,13 +24,15 @@ export async function GET(
         bg_color: searchParams.get("bg_color") || "",
         w: searchParams.get("w") || "",
         h: searchParams.get("h") || "",
+        o: searchParams.get("o") || "1",
     }
-    const { id, username, bg_color, w, h } = query
+    const { id, username, bg_color, w, h, o } = query
     const seed = (id || username || `${Math.random()}`) as string
     const rng = seedrandom(seed);
-    const width = w ? parseInt(w as string) : (h ? parseInt(h as string) : defaultSize);
-    const height = h ? parseInt(h as string) : (w ? parseInt(w as string) : defaultSize);
-    const result = await getSvg({ rng, bgColor: bg_color, width, height });
+    const width = w ? parseInt(w) : (h ? parseInt(h) : defaultSize);
+    const height = h ? parseInt(h) : (w ? parseInt(w) : defaultSize);
+    const opacity = parseInt(o, 10);
+    const result = await getSvg({ rng, bgColor: bg_color, width, height, opacity });
     return new Response(result, {
         status: 200,
         headers: {

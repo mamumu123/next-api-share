@@ -8,8 +8,16 @@ import { renderToString } from '@vue/server-renderer'
 // console.log('appPath', appPath);
 // const appCode = fs.readFileSync(appPath, 'utf-8')
 
-export const getSvg = async ({ rng, bgColor, height, width }: { rng: () => number, bgColor: string, height: number, width: number }) => {
-  const data = getImageData({ rng, bgColor, height, width });
+interface ISvg {
+  rng: () => number,
+  bgColor: string,
+  height: number,
+  width: number
+  opacity: number
+}
+
+export const getSvg = async ({ rng, bgColor, height, width, opacity }: ISvg) => {
+  const data = getImageData({ rng, bgColor, height, width, opacity });
   const app = createSSRApp({
     template: `<svg viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg" :width="width||200" :height="height||200" id="face-svg">
   <defs>
@@ -41,7 +49,7 @@ export const getSvg = async ({ rng, bgColor, height, width }: { rng: () => numbe
   </defs>
   <title>That's an ugly face</title>
   <desc>CREATED BY XUAN TANG, MORE INFO AT TXSTC55.GITHUB.IO</desc>
-  <rect x="-100" y="-100" width="100%" height="100%" :fill="bgColor || backgroundColors[Math.floor(rng() * backgroundColors.length)]
+  <rect x="-100" y="-100" width="100%" height="100%" :opacity="opacity || 1" :fill="bgColor || backgroundColors[Math.floor(rng() * backgroundColors.length)]
     " />
   <polyline id="faceContour" :points="computedFacePoints.toString()" fill="#ffc9a9" stroke="black"
     :stroke-width="3.0 / faceScale" stroke-linejoin="round" filter="url(#fuzzy)" />

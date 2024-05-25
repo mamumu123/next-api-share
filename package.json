@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@tensorflow/tfjs": "^4.19.0",
