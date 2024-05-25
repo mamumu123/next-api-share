@@ -22,27 +22,20 @@
 - 增加了 'bg_color' 参数，通过这个参数，可以确保头像的背景色是固定的颜色值；
 - 增加了 'o' 参数，通过这个参数，可以指定返回图片的背景透明度；
 - 增加了 'w' 和 'h' 参数，通过这个参数，可以指定返回图片的宽度和高度；
+- 增加了 'f' 参数，通过这个参数，可以指定返回图片的格式('png', 'webp', 'jpeg')；
 
 ### api demo
 
-#### 随机返回
-https://next-api-share.vercel.app/api/face
 
-#### 固定背景色
-https://next-api-share.vercel.app/api/face?bg_color=rgb(245,245,220)
+|需求|参数值|类型（可选项）| demo|
+|--|--|--|--|
+|随机返回|||<https://next-api-share.vercel.app/api/face> |
+|固定背景色|bg_color|rgb、name| <https://next-api-share.vercel.app/api/face?bg_color=rgb(245,245,220)><br/><https://next-api-share.vercel.app/api/face?bg_color=red>|
+|透明背景|o|0~1|<https://next-api-share.vercel.app/api/face?o=0>|
+|固定返回值|id、username|string|<https://next-api-share.vercel.app/api/face?id=666><br/><https://next-api-share.vercel.app/api/face?username=john>|
+|固定宽度或高度|w、h|number|<https://next-api-share.vercel.app/api/face?w=400&h=400>|
+|格式|f|png、webp、jpeg|<https://next-api-share.vercel.app/api/face?f=png>|
 
-https://next-api-share.vercel.app/api/face?bg_color=red
-
-#### 透明背景
-https://next-api-share.vercel.app/api/face?bg_color=red&o=0
-
-#### 固定返回值
-https://next-api-share.vercel.app/api/face?id=666
-
-https://next-api-share.vercel.app/api/face?username=john
-
-#### 固定宽度或高度
-https://next-api-share.vercel.app/api/face?w=400&h=400
 
 
 ## 技术细节
@@ -115,7 +108,6 @@ svgData = svgData.replace('viewbox', 'viewBox')
 ```
 
 ## TODO
-- 扩展对更多图片格式的支持，例如 PNG 和 WebP；
 - 引入更多参数，如 hairColor，以确保背景色能够保持固定的颜色值；
 
 

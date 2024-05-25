@@ -4,4 +4,4 @@
 get {{host}}/api/hello
 
 ### /face
-get {{host}}/api/face
+get {{host}}/api/face?f=png
