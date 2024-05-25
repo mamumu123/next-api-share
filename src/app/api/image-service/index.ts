@@ -49,7 +49,7 @@ export const getSvg = async ({ rng, bgColor, height, width, opacity }: ISvg) => 
   </defs>
   <title>That's an ugly face</title>
   <desc>CREATED BY XUAN TANG, MORE INFO AT TXSTC55.GITHUB.IO</desc>
-  <rect x="-100" y="-100" width="100%" height="100%" :opacity="opacity || 1" :fill="bgColor || backgroundColors[Math.floor(rng() * backgroundColors.length)]
+  <rect x="-100" y="-100" width="100%" height="100%" :opacity="opacity" :fill="bgColor || backgroundColors[Math.floor(rng() * backgroundColors.length)]
     " />
   <polyline id="faceContour" :points="computedFacePoints.toString()" fill="#ffc9a9" stroke="black"
     :stroke-width="3.0 / faceScale" stroke-linejoin="round" filter="url(#fuzzy)" />

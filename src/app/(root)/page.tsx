@@ -7,13 +7,14 @@ import {
 } from "@/components/ui/card";
 import { range } from 'lodash-es';
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { nanoid } from 'nanoid'
-import Link from "next/link";
+// import Link from "next/link";
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { API_FACE, BG_TYPE, FAV_ICON, GIT_REPO } from "@/constants";
 import { loaderProp, onDownload } from "@/utils/image";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   const [demoList, setDemoList] = useState<string[]>([]);
@@ -23,14 +24,30 @@ export default function Home() {
     setBgType(value)
   }
 
-  const onSwitch = () => {
-    setDemoList(() => range(0, 10).map(() => `${API_FACE}?id=${nanoid()}`))
+  const [color, setColor] = useState('blue');
+
+  const changeColor = (event: any) => {
+    setColor(event.target.value)
   }
+
+  const onSwitch = useCallback(() => {
+    let colorQuery = '';
+    if (bgType === BG_TYPE.ONE) {
+      const r = parseInt(color.slice(1, 3), 16)
+      const g = parseInt(color.slice(3, 5), 16)
+      const b = parseInt(color.slice(5, 7), 16)
+      const queryColor = `rgb(${r},${g},${b})`;
+      colorQuery = `bg_color=${queryColor}`;
+    } else if (bgType === BG_TYPE.OPACITY) {
+      colorQuery = `o=${0}`;
+    }
+    console.log('colorQuery', colorQuery, 'bgType', bgType, 'color', color)
+    setDemoList(() => range(0, 10).map(() => `${API_FACE}?id=${nanoid()}&${colorQuery}`))
+  }, [setDemoList, bgType, color])
 
   useEffect(() => {
     onSwitch()
   }, []);
-
 
   return (
     <div className={`flex min-h-screen flex-col w-full p-2`}>
@@ -55,17 +72,14 @@ export default function Home() {
           </RadioGroup>
         </div >
 
-        <div className={'w-[200px]'}>
-          {
-            bgType === BG_TYPE.ONE && (
-              <>
-                <div className={'flex justify-around items-center'}>
-                  <label htmlFor="hs-color-input" className=" text-sm font-medium mb-2 dark:text-white flex items-center mr-5">背景色</label>
-                  <input type="color" className="p-1 h-10 w-14  bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700" id="hs-color-input" value="#2563eb" title="Choose your color"></input>
-                </div>
-              </>
-            )
-          }
+        <div className={'w-[200px] ml-[48px]'}>{
+          (bgType === BG_TYPE.ONE) && (
+            <div className={'flex justify-around items-center'}>
+              <Label htmlFor="color" className={'text-nowrap'}>背景色</Label>
+              <Input value={color} onChange={changeColor} type="color"></Input>
+
+            </div>
+          )}
         </div>
         <Button onClick={onSwitch}> 换一波 </Button>
       </div>
@@ -75,7 +89,10 @@ export default function Home() {
         {demoList.map((item) => (
           <Card className="min-w-[300px] h-[400px]" key={item}>
             <CardContent className={'p-5'}>
-              <Image src={item} alt={'index'} width={300} height={300} loader={loaderProp} />
+              <Image
+                unoptimized={true}
+                priority
+                src={item} alt={'index'} width={300} height={300} loader={loaderProp} />
             </CardContent>
             <CardFooter className={'flex justify-around items-center'}>
               <Button onClick={() => onDownload(item)} variant="outline"> 下载 </Button>
