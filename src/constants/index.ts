@@ -4,11 +4,11 @@ export const navLinks = [
     route: "/",
     icon: "/assets/icons/home.svg",
   },
-  {
-    label: "编辑",
-    route: "/styled?id=",
-    icon: "/assets/icons/image.svg",
-  },
+  // {
+  //   label: "编辑",
+  //   route: "/styled?id=",
+  //   icon: "/assets/icons/image.svg",
+  // },
   // {
   //   label: "Generative Fill",
   //   route: "/transformations/add/fill",
@@ -40,3 +40,5 @@ export const navLinks = [
   //   icon: "/assets/icons/bag.svg",
   // },
 ];
+
+export * from './front';
