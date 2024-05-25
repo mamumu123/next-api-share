@@ -20,6 +20,7 @@
 - 增设了 API 接口，可以直接返回随机生成的头像；
 - 添加了 'id' 和 'username' 参数，通过固定这两个参数，可以确保返回的头像保持一致；
 - 增加了 'bg_color' 参数，通过这个参数，可以确保头像的背景色是固定的颜色值；
+- 增加了 'o' 参数，通过这个参数，可以指定返回图片的背景透明度；
 - 增加了 'w' 和 'h' 参数，通过这个参数，可以指定返回图片的宽度和高度；
 
 ### api demo
@@ -32,6 +33,8 @@ https://next-api-share.vercel.app/api/face?bg_color=rgb(245,245,220)
 
 https://next-api-share.vercel.app/api/face?bg_color=red
 
+#### 透明背景
+https://next-api-share.vercel.app/api/face?bg_color=red&o=0
 
 #### 固定返回值
 https://next-api-share.vercel.app/api/face?id=666
