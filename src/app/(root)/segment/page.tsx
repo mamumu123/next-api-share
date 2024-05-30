@@ -12,20 +12,23 @@ export default function Page() {
         console.log('start');
         const output = await segmenter('/a.png');
         console.log('output end', output);
-        const map = {}
+        const map: any = {}
         Object.keys(output).forEach((key: any) => {
             const item = output[key];
-            const { } = item;
-            // map[item]
+            const { label, mask } = item;
+            map[label] = mask;
         });
-        // for (const m of output) {
-        //     m.mask.save(`${m.label}.png`);
-        // }
         const ctx = canvasRef.current?.getContext('2d');
         if (!ctx) {
             return
         }
-        // ctx.s
+        // 0 背景（不着急，当成透明）
+        // 1. 轮廓， skin
+        // 头发
+        // 嘴巴
+        // 眼睛
+        // 鼻子
+
     }
     return (
         <div className='mt-5'>
