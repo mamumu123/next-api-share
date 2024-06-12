@@ -1,0 +1,12 @@
+version: "3.5"
+
+services:
+  my-ugly-face-api:
+    image: my-ugly-face-api:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: my-ugly-face-api
+    restart: always
+    ports:    # 指定端口映射
+      - "3000:3000"
