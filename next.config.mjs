@@ -8,7 +8,10 @@ const nextConfig = {
       "github.githubassets.com",
       "next-api-share.vercel.app",
     ],
-  }
+  },
+  experimental: {
+    workerThreads: true,
+  },
 };
 
 export default nextConfig;

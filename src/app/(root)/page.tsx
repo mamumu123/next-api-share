@@ -15,7 +15,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { API_FACE, BG_TYPE, FAV_ICON, GIT_REPO } from "@/constants";
 import { loaderProp, onDownload } from "@/utils/image";
 import { Input } from "@/components/ui/input";
-
+import { LazyImage } from "@/components/shared/LazyImage";
 export default function Home() {
   const [demoList, setDemoList] = useState<string[]>([]);
 
@@ -89,10 +89,12 @@ export default function Home() {
         {demoList.map((item) => (
           <Card className="min-w-[300px] h-[400px]" key={item}>
             <CardContent className={'p-5'}>
-              <Image
-                unoptimized={true}
-                priority
-                src={item} alt={'index'} width={300} height={300} loader={loaderProp} />
+              <LazyImage
+                src={item}
+                alt={'index'}
+                width={300}
+                height={300}
+              />
             </CardContent>
             <CardFooter className={'flex justify-around items-center'}>
               <Button onClick={() => onDownload(item)} variant="outline"> 下载 </Button>
