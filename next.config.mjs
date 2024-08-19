@@ -9,9 +9,6 @@ const nextConfig = {
       "next-api-share.vercel.app",
     ],
   },
-  experimental: {
-    workerThreads: true,
-  },
 };
 
 export default nextConfig;

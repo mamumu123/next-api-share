@@ -1,10 +1,5 @@
 "use client";
 import Image from "next/image";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
 import { range } from 'lodash-es';
 import { Button } from "@/components/ui/button";
 import { useCallback, useEffect, useState } from "react";
@@ -13,9 +8,8 @@ import { nanoid } from 'nanoid'
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { API_FACE, BG_TYPE, FAV_ICON, GIT_REPO } from "@/constants";
-import { loaderProp, onDownload } from "@/utils/image";
 import { Input } from "@/components/ui/input";
-import { LazyImage } from "@/components/shared/LazyImage";
+import MasonryLayout from "@/components/shared/MasonryLayout";
 export default function Home() {
   const [demoList, setDemoList] = useState<string[]>([]);
 
@@ -83,28 +77,12 @@ export default function Home() {
         </div>
         <Button onClick={onSwitch}> 换一波 </Button>
       </div>
-      <div
-        className={`flex h-100 w-full flex-wrap gap-6`}
-      >
-        {demoList.map((item) => (
-          <Card className="min-w-[300px] h-[400px]" key={item}>
-            <CardContent className={'p-5'}>
-              <LazyImage
-                src={item}
-                alt={'index'}
-                width={300}
-                height={300}
-              />
-            </CardContent>
-            <CardFooter className={'flex justify-around items-center'}>
-              <Button onClick={() => onDownload(item)} variant="outline"> 下载 </Button>
-              {/* <Link href={`/styled/?url=${item}`}>
-                <Button variant="secondary"> 编辑 </Button>
-              </Link> */}
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+      <MasonryLayout images={demoList.map(url => {
+        return {
+          url,
+          alt: ''
+        }
+      })} />
     </div>
 
   );

@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("font-IBMPlex antialiased")}>
+      <body className={cn("font-IBMPlex antialiased overflow-hidden")}>
         {children}
       </body>
     </html>
