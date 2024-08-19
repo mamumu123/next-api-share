@@ -15,6 +15,7 @@ type Query = {
     h: string
     o: string // opacity
     format: string
+    save: string
 }
 export async function GET(
     request: NextRequest
@@ -28,11 +29,13 @@ export async function GET(
         h: searchParams.get("h") || "",
         o: searchParams.get("o") || "1",
         format: searchParams.get("f") || "",
+        save: searchParams.get("save") || "",
     }
     const {
         id, username, bg_color,
         w, h, o,
-        format
+        format,
+        save
     } = query
     const seed = (id || username || `${Math.random()}`) as string
     const rng = seedrandom(seed);
@@ -55,6 +58,19 @@ export async function GET(
             });
 
         }
+    }
+
+    if(!save) {
+        // 提供渐进式 JPEG 预览, 并降低质量
+        const jpegBuffer = await sharp(Buffer.from(result))
+            .jpeg({ progressive: true, quality: 75 })
+            .toBuffer();
+        return new Response(jpegBuffer, {
+            status: 200,
+            headers: {
+                'Content-Type': `image/jpeg`,
+            }
+        });
     }
 
     return new Response(result, {

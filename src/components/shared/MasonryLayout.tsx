@@ -57,7 +57,7 @@ const CardCell: React.FC<CellProps> = ({ columnIndex, rowIndex, style, data }) =
                 />
             </CardContent>
             <CardFooter className={'flex justify-around items-center'}>
-                <Button onClick={() => onDownload(image.url)} variant="outline"> 下载 </Button>
+                <Button onClick={() => onDownload(`${image.url}&save=save`)} variant="outline"> 下载 </Button>
             </CardFooter>
         </Card>
     );
