@@ -8,7 +8,7 @@ export function LazyImage({ src = '', alt = '', width = 300, height = 300 }) {
 
     const { ref, inView } = useInView({
         triggerOnce: true,
-        threshold: 0.1,
+        threshold: 0.25,
     });
 
     return (
