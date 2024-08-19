@@ -50,14 +50,14 @@ const CardCell: React.FC<CellProps> = ({ columnIndex, rowIndex, style, data }) =
         }} key={image.url}>
             <CardContent className={'p-5'}>
                 <LazyImage
-                    src={image.url}
+                    src={`${image.url}view=preview`}
                     alt={'index'}
                     width={300}
                     height={300}
                 />
             </CardContent>
             <CardFooter className={'flex justify-around items-center'}>
-                <Button onClick={() => onDownload(`${image.url}&save=save`)} variant="outline"> 下载 </Button>
+                <Button onClick={() => onDownload(image.url)} variant="outline"> 下载 </Button>
             </CardFooter>
         </Card>
     );
