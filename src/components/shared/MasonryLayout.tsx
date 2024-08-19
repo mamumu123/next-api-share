@@ -64,13 +64,15 @@ const CardCell: React.FC<CellProps> = ({ columnIndex, rowIndex, style, data }) =
 };
 
 const MasonryLayout: React.FC<MasonryLayoutProps> = ({ images }: MasonryLayoutProps) => {
-    const [containerWidth, setContainerWidth] = useState<number>(1000);
+    const [containerWidth, setContainerWidth] = useState<number>(1200);
+    const [containerHeight, setContainerHeight] = useState<number>(800);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleResize = () => {
             if (containerRef.current) {
                 setContainerWidth(containerRef.current.offsetWidth);
+                setContainerHeight(window.innerHeight - 154);
             }
         };
 
@@ -99,11 +101,11 @@ const MasonryLayout: React.FC<MasonryLayoutProps> = ({ images }: MasonryLayoutPr
     const rowCount = Math.ceil(images.length / columnCount);
 
     return (
-        <div ref={containerRef} style={{ width: '100%', overflow: 'hidden' }}>
+        <div ref={containerRef} style={{ width: '100%' }}>
             <Grid
                 columnCount={columnCount}
                 columnWidth={() => columnWidth}
-                height={window.innerHeight}
+                height={containerHeight}
                 rowCount={rowCount}
                 rowHeight={getRowHeight}
                 width={containerWidth}
