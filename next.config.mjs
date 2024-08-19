@@ -8,7 +8,7 @@ const nextConfig = {
       "github.githubassets.com",
       "next-api-share.vercel.app",
     ],
-  }
+  },
 };
 
 export default nextConfig;
