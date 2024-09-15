@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { NextRequest } from "next/server";
-import { getSvg } from "@/app/api/image-service";
+import { getSvg } from "@/services/image";
 import seedrandom from 'seedrandom';
 import sharp from 'sharp';
 
@@ -60,7 +60,7 @@ export async function GET(
         }
     }
 
-    if(view && view === 'preview') {
+    if (view && view === 'preview') {
         // 提供渐进式 JPEG 预览, 并降低质量
         const jpegBuffer = await sharp(Buffer.from(result))
             .jpeg({ progressive: true, quality: 75 })
