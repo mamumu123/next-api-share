@@ -1,4 +1,9 @@
-import { generateBothEyes, generateFaceCountourPoints, generateHairLines0, generateHairLines1, generateHairLines2, generateHairLines3, generateMouthShape0, generateMouthShape1, generateMouthShape2, randomFromInterval } from "@/utils";
+import {
+  generateBothEyes, generateFaceCountourPoints, generateHairLines0,
+  generateHairLines1, generateHairLines2, generateHairLines3,
+  generateMouthShape0, generateMouthShape1, generateMouthShape2,
+  randomFromInterval,
+} from "@/utils";
 
 interface Data {
   faceScale: number;
